@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FOODIE - Food Ordering</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fff8f0;
+            color: #333;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #ff6b35;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .cart-button {
+            background: white;
+            color: #ff6b35;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-button:hover {
+            background: #fff0df;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: linear-gradient(135deg, #ff6b35, #ff9f1c);
+            color: white;
+            min-height: 390px;
+            padding: 60px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .hero-text {
+            max-width: 550px;
+        }
+
+        .hero-text h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 19px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .hero-button {
+            border: none;
+            background: white;
+            color: #ff6b35;
+            padding: 14px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hero-button:hover {
+            background: #fff0df;
+        }
+
+        .hero-food {
+            font-size: 170px;
+        }
+
+        /* ================= CATEGORIES ================= */
+
+        .categories {
+            text-align: center;
+            padding: 35px 5%;
+        }
+
+        .categories h2 {
+            margin-bottom: 25px;
+            font-size: 30px;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-btn {
+            border: 2px solid #ff6b35;
+            background: white;
+            color: #ff6b35;
+            padding: 12px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .category-btn:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        /* ================= FOOD MENU ================= */
+
+        .food-section {
+            padding: 20px 7% 60px;
+        }
+
+        .food-section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 35px;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+            transition: 0.2s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .food-image {
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+            background: #fff0df;
+        }
+
+        .food-info {
+            padding: 20px;
+        }
+
+        .food-info h3 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .food-info p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            color: #ff6b35;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .add-button {
+            width: 100%;
+            margin-top: 15px;
+            border: none;
+            background: #ff6b35;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background: #e85a2a;
+        }
+
+        /* ================= CART ================= */
+
+        .cart-section {
+            background: white;
+            margin: 20px 7% 60px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .cart-section h2 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+
+        #cartItems {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            gap: 15px;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity-controls button:hover {
+            background: #e85a2a;
+        }
+
+        .remove-button {
+            border: none;
+            background: #dc3545;
+            color: white;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .remove-button:hover {
+            background: #bb2d3b;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ================= CHECKOUT ================= */
+
+        .checkout {
+            background: #fff0df;
+            padding: 50px 7%;
+        }
+
+        .checkout-box {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .checkout-box h2 {
+            text-align: center;
+            color: #ff6b35;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            font-size: 15px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .order-button {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .order-button:hover {
+            background: #218838;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            margin-top: 8px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 700px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 38px;
+            }
+
+            .hero-food {
+                font-size: 100px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- ===================================================== -->
+<!-- NAVBAR -->
+<!-- ===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🍔 FOODIE
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">Home</a>
+
+        <a href="#menu">Menu</a>
+
+        <a href="#cart">Cart</a>
+
+        <a href="#checkout">Checkout</a>
+
+    </div>
+
+    <button class="cart-button" onclick="goToCart()">
+
+        🛒 Cart
+        (<span id="cartCount">0</span>)
+
+    </button>
+
+</nav>
+
+
+<!-- ===================================================== -->
+<!-- HERO -->
+<!-- ===================================================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <h1>
+            Delicious Food, Delivered Fast! 🍕
+        </h1>
+
+        <p>
+            Order your favourite pizza, burger, chicken,
+            fries and drinks from FOODIE.
+        </p>
+
+        <button
+            class="hero-button"
+            onclick="goToMenu()">
+
+            🍽️ Order Now
+
+        </button>
+
+    </div>
+
+    <div class="hero-food">
+        🍔
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- CATEGORIES -->
+<!-- ===================================================== -->
+
+<section class="categories">
+
+    <h2>
+        What are you craving? 😋
+    </h2>
+
+    <div class="category-buttons">
+
+        <button
+            class="category-btn"
+            onclick="filterFood('all')">
+
+            🍽️ All
+
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('pizza')">
+
+            🍕 Pizza
+
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('burger')">
+
+            🍔 Burger
+
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('chicken')">
+
+            🍗 Chicken
+
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('fries')">
+
+            🍟 Fries
+
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('drink')">
+
+            🥤 Drinks
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- FOOD MENU -->
+<!-- ===================================================== -->
+
+<section class="food-section" id="menu">
+
+    <h2>
+        🍴 Our Delicious Menu
+    </h2>
+
+    <div class="food-grid">
+
+
+        <!-- CHEESE PIZZA -->
+
+        <div
+            class="food-card"
+            data-category="pizza">
+
+            <div class="food-image">
+                🍕
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    Cheese Pizza
+                </h3>
+
+                <p>
+                    Delicious cheesy pizza with fresh toppings.
+                </p>
+
+                <span class="price">
+                    ₹249
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('Cheese Pizza', 249)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASSIC BURGER -->
+
+        <div
+            class="food-card"
+            data-category="burger">
+
+            <div class="food-image">
+                🍔
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    Classic Burger
+                </h3>
+
+                <p>
+                    Juicy burger with cheese and fresh vegetables.
+                </p>
+
+                <span class="price">
+                    ₹199
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('Classic Burger', 199)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FRIED CHICKEN -->
+
+        <div
+            class="food-card"
+            data-category="chicken">
+
+            <div class="food-image">
+                🍗
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    Fried Chicken
+                </h3>
+
+                <p>
+                    Crispy and delicious fried chicken.
+                </p>
+
+                <span class="price">
+                    ₹299
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('Fried Chicken', 299)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FRENCH FRIES -->
+
+        <div
+            class="food-card"
+            data-category="fries">
+
+            <div class="food-image">
+                🍟
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    French Fries
+                </h3>
+
+                <p>
+                    Crispy golden fries with seasoning.
+                </p>
+
+                <span class="price">
+                    ₹99
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('French Fries', 99)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHEESE PASTA -->
+
+        <div
+            class="food-card"
+            data-category="pizza">
+
+            <div class="food-image">
+                🍝
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    Cheese Pasta
+                </h3>
+
+                <p>
+                    Creamy pasta with delicious cheese.
+                </p>
+
+                <span class="price">
+                    ₹179
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('Cheese Pasta', 179)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- COLD DRINK -->
+
+        <div
+            class="food-card"
+            data-category="drink">
+
+            <div class="food-image">
+                🥤
+            </div>
+
+            <div class="food-info">
+
+                <h3>
+                    Cold Drink
+                </h3>
+
+                <p>
+                    Chilled refreshing soft drink.
+                </p>
+
+                <span class="price">
+                    ₹59
+                </span>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart('Cold Drink', 59)">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- CART -->
+<!-- ===================================================== -->
+
+<section class="cart-section" id="cart">
+
+    <h2>
+        🛒 Your Shopping Cart
+    </h2>
+
+    <div id="cartItems">
+
+        <p>
+            Your cart is empty.
+            Add some delicious food! 😋
+        </p>
+
+    </div>
+
+    <div class="cart-total">
+
+        Total: ₹<span id="cartTotal">0</span>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- CHECKOUT -->
+<!-- ===================================================== -->
+
+<section class="checkout" id="checkout">
+
+    <div class="checkout-box">
+
+        <h2>
+            🧾 Checkout
+        </h2>
+
+        <!-- IMPORTANT:
+             This calls placeOrder() when Place Order is clicked.
+        -->
+
+        <form onsubmit="placeOrder(event)">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    👤 Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Enter your name"
+                    required>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label>
+                    📱 Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    pattern="[0-9]{10}"
+                    required>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group">
+
+                <label>
+                    🏠 Delivery Address
+                </label>
+
+                <textarea
+                    id="address"
+                    placeholder="Enter your complete address"
+                    required></textarea>
+
+            </div>
+
+
+            <!-- PAYMENT -->
+
+            <div class="form-group">
+
+                <label>
+                    💳 Payment Method
+                </label>
+
+                <select
+                    id="payment"
+                    required>
+
+                    <option value="">
+                        Select payment method
+                    </option>
+
+                    <option value="Cash on Delivery">
+                        Cash on Delivery
+                    </option>
+
+                    <option value="UPI">
+                        UPI
+                    </option>
+
+                    <option value="Card">
+                        Card
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PLACE ORDER -->
+
+            <button
+                class="order-button"
+                type="submit">
+
+                ✅ Place Order
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================== -->
+
+<footer>
+
+    <h3>
+        🍔 FOODIE
+    </h3>
+
+    <p>
+        Fresh food • Fast delivery • Happy customers ❤️
+    </p>
+
+    <p>
+        © 2026 FOODIE. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script>
+
+
+/* ===================================================== */
+/* CART ARRAY */
+/* ===================================================== */
+
+let cart = [];
+
+
+/* ===================================================== */
+/* ADD TO CART */
+/* ===================================================== */
+
+function addToCart(name, price) {
+
+    let existingItem =
+        cart.find(item => item.name === name);
+
+
+    if (existingItem) {
+
+        existingItem.quantity++;
+
+    } else {
+
+        cart.push({
+
+            name: name,
+
+            price: price,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    updateCart();
+
+
+    alert(
+        "🛒 " + name +
+        " added to cart!"
+    );
+
+
+    /*
+       After adding the food,
+       automatically go to the cart.
+    */
+
+    goToCart();
+
+}
+
+
+/* ===================================================== */
+/* UPDATE CART */
+/* ===================================================== */
+
+function updateCart() {
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
+
+
+    cartItems.innerHTML = "";
+
+
+    /* EMPTY CART */
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML =
+            "<p>Your cart is empty. Add some delicious food! 😋</p>";
+
+    }
+
+
+    let total = 0;
+
+    let count = 0;
+
+
+    /* DISPLAY CART ITEMS */
+
+    cart.forEach((item, index) => {
+
+
+        total +=
+            item.price * item.quantity;
+
+
+        count +=
+            item.quantity;
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "cart-item";
+
+
+        div.innerHTML = `
+
+            <div>
+
+                <div class="cart-item-name">
+                    ${item.name}
+                </div>
+
+                <div>
+                    ₹${item.price} × ${item.quantity}
+                </div>
+
+            </div>
+
+
+            <div class="quantity-controls">
+
+                <button
+                    onclick="decreaseQuantity(${index})">
+
+                    −
+
+                </button>
+
+
+                <strong>
+                    ${item.quantity}
+                </strong>
+
+
+                <button
+                    onclick="increaseQuantity(${index})">
+
+                    +
+
+                </button>
+
+            </div>
+
+
+            <strong>
+                ₹${item.price * item.quantity}
+            </strong>
+
+
+            <button
+                class="remove-button"
+                onclick="removeItem(${index})">
+
+                🗑️ Remove
+
+            </button>
+
+        `;
+
+
+        cartItems.appendChild(div);
+
+    });
+
+
+    /* UPDATE CART COUNT */
+
+    cartCount.innerText =
+        count;
+
+
+    /* UPDATE TOTAL */
+
+    cartTotal.innerText =
+        total;
+
+}
+
+
+/* ===================================================== */
+/* INCREASE QUANTITY */
+/* ===================================================== */
+
+function increaseQuantity(index) {
+
+    cart[index].quantity++;
+
+    updateCart();
+
+}
+
+
+/* ===================================================== */
+/* DECREASE QUANTITY */
+/* ===================================================== */
+
+function decreaseQuantity(index) {
+
+    if (cart[index].quantity > 1) {
+
+        cart[index].quantity--;
+
+    } else {
+
+        cart.splice(index, 1);
+
+    }
+
+
+    updateCart();
+
+}
+
+
+/* ===================================================== */
+/* REMOVE ITEM */
+/* ===================================================== */
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+}
+
+
+/* ===================================================== */
+/* GO TO MENU */
+/* ===================================================== */
+
+function goToMenu() {
+
+    document
+        .getElementById("menu")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ===================================================== */
+/* GO TO CART */
+/* ===================================================== */
+
+function goToCart() {
+
+    document
+        .getElementById("cart")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ===================================================== */
+/* GO TO CHECKOUT */
+/* ===================================================== */
+
+function goToCheckout() {
+
+    document
+        .getElementById("checkout")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ===================================================== */
+/* FILTER FOOD */
+/* ===================================================== */
+
+function filterFood(category) {
+
+    const cards =
+        document.querySelectorAll(".food-card");
+
+
+    cards.forEach(card => {
+
+
+        if (
+            category === "all" ||
+            card.dataset.category === category
+        ) {
+
+            card.style.display = "block";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    /* Go to menu */
+
+    goToMenu();
+
+}
+
+
+/* ===================================================== */
+/* PLACE ORDER */
+/* ===================================================== */
+
+function placeOrder(event) {
+
+    /*
+       Prevent page refresh.
+    */
+
+    event.preventDefault();
+
+
+    /* CHECK CART */
+
+    if (cart.length === 0) {
+
+        alert(
+            "🛒 Your cart is empty!\n\n" +
+            "Please add food before placing your order."
+        );
+
+        goToMenu();
+
+        return;
+
+    }
+
+
+    /* GET CUSTOMER DETAILS */
+
+    const name =
+        document
+        .getElementById("customerName")
+        .value;
+
+
+    const phone =
+        document
+        .getElementById("phone")
+        .value;
+
+
+    const address =
+        document
+        .getElementById("address")
+        .value;
+
+
+    const payment =
+        document
+        .getElementById("payment")
+        .value;
+
+
+    /* CALCULATE TOTAL */
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        total +=
+            item.price * item.quantity;
+
+    });
+
+
+    /* ================================================= */
+    /* SUCCESS POP-UP */
+    /* ================================================= */
+
+    alert(
+
+        "🎉 ORDER PLACED SUCCESSFULLY! 🎉\n\n" +
+
+        "👤 Name: " + name + "\n" +
+
+        "📱 Phone: " + phone + "\n" +
+
+        "🏠 Address: " + address + "\n" +
+
+        "💳 Payment: " + payment + "\n\n" +
+
+        "💰 TOTAL BILL: ₹" + total + "\n\n" +
+
+        "🍔 Thank you for ordering from FOODIE!\n" +
+
+        "❤️ Your food will be delivered soon!"
+
+    );
+
+
+    /* ================================================= */
+    /* CLEAR CART AFTER SUCCESSFUL ORDER */
+    /* ================================================= */
+
+    cart = [];
+
+
+    updateCart();
+
+
+    /* ================================================= */
+    /* RESET CHECKOUT FORM */
+    /* ================================================= */
+
+    document
+        .querySelector(".checkout-box form")
+        .reset();
+
+
+    /* ================================================= */
+    /* GO TO HOME AFTER ORDER */
+    /* ================================================= */
+
+    document
+        .getElementById("home")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ===================================================== */
+/* INITIAL CART UPDATE */
+/* ===================================================== */
+
+updateCart();
+
+
+</script>
+
+</body>
+</html>
